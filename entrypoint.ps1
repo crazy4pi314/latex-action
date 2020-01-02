@@ -1,4 +1,17 @@
 #!/usr/bin/env pwsh
+param(
+    $Name
+)
 
-Write-Host "Hello $1"
-Write-Host "::set-output name=time::$time"
+function Set-Output {
+    param(
+        $Name,
+        $Value
+    );
+    Write-Host "::set-output name=$Name::$Value";
+
+}
+
+Write-Host "Hello $Name"
+Set-Output -Name time -Value (Get-Date)
+
