@@ -10,12 +10,18 @@ inputs:
     description: "TeX engine to use to build the document."
     required: false
     default: "pdflatex"
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  working-directory:
+    description: "Directory to run the LaTeX build in."
+    required: false
+    default: ""
+
+# outputs:
+#   time: # id of output
+#     description: 'The time we greeted you'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.source }}
     - ${{ inputs.engine }}
+    - ${{ inputs.working-directory }}
