@@ -11,6 +11,7 @@ RUN apt-get update && \
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.ps1 /entrypoint.ps1
+COPY actions.psm1 /actions.psm1
 RUN chmod +x /entrypoint.ps1
 
 # Code file to execute when the docker container starts up (`entrypoint.ps1`)
