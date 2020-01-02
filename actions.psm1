@@ -36,5 +36,6 @@ function Write-ActionError {
     if ($null -ne $File) { $Args["file"] = $File; }
     if ($null -ne $Line) { $Args["line"] = $Line; }
     if ($null -ne $Column) { $Args["col"] = $Column; }
-    Invoke-ActionCommand "error" -Message $Message -Args $Args;
+    Write-Debug $Args;
+    Invoke-ActionCommand -CommandName "error" -Message $Message -Args $Args;
 }

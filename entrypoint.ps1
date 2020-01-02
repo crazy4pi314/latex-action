@@ -1,12 +1,16 @@
 #!/usr/bin/env pwsh
 param(
-    $FileName,
-    $Engine,
-    $WorkingDirectory
+    $InputsAsJson
 )
+
+$Inputs = $InputsAsJson | ConvertFrom-Json;
+$FileName = $Inputs.source;
+$Engine = $Inputs.engine;
+$WorkingDirectory = $Inputs."working-directory";
 
 Import-Module (Join-Path $PSScriptRoot actions.psm1)
 if ("" -eq "$WorkingDirectory") {
+    Write-Host "Setting working directory to $WorkingDirectory"
     Set-Location (Join-Path "/github/workspace" $WorkingDirectory)
 }
 
@@ -28,6 +32,6 @@ if ("xelatex" -eq $Engine) {
 latexmk @ExtraArgs $FileName
 $LatexmkExitCode = $LASTEXITCODE
 if ($LatexmkExitCode -ne 0) {
-    Write-ActionError "latexmk returned exit code $LatexmkExitCode. Check logs for details.";
+    Write-ActionError -Message "latexmk returned exit code $LatexmkExitCode. Check logs for details.";
     exit $LatexmkExitCode
 }
