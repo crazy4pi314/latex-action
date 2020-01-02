@@ -4,7 +4,7 @@ param(
     $Engine
 )
 
-Import-Module ./actions.psm1
+Import-Module (Join-Path $PSScriptRoot actions.psm1)
 
 # Write out diagnostic information.
 @{
