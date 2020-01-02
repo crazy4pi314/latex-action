@@ -1,6 +1,7 @@
 #!/usr/bin/env pwsh
 param(
-    $Name
+    $FileName,
+    $Engine
 )
 
 function Set-Output {
@@ -12,6 +13,14 @@ function Set-Output {
 
 }
 
-Write-Host "Hello $Name"
+$ExtraArgs = @()
+
+if ("xelatex" -eq $Engine) {
+    $ExtraArgs += @("-xelatex");
+} elseif ("pdflatex" -eq $Engine) {
+    $ExtraArgs += @("-pdf");
+}
+
 Set-Output -Name time -Value (Get-Date)
 
+latexmk @ExtraArgs $FileName

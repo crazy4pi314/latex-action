@@ -2,10 +2,14 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  source:  
+    description: 'Main LaTeX file to build'
     required: true
-    default: 'World'
+    default: 'main.tex'
+  engine:
+    description: "TeX engine to use to build the document."
+    required: false
+    default: "pdflatex"
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -13,4 +17,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
+    - ${{ inputs.source }}
+    - ${{ inputs.engine }}
