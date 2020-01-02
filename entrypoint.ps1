@@ -9,7 +9,7 @@ $Engine = $Inputs.engine;
 $WorkingDirectory = $Inputs."working-directory";
 
 Import-Module (Join-Path $PSScriptRoot actions.psm1)
-if ("" -eq "$WorkingDirectory") {
+if ("" -ne "$WorkingDirectory") {
     Write-Host "Setting working directory to $WorkingDirectory"
     Set-Location (Join-Path "/github/workspace" $WorkingDirectory)
 }
