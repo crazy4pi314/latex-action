@@ -1,16 +1,23 @@
 
 function Invoke-ActionCommand {
+    [CmdletBinding()]
     param(
-        [string] $CommandName,
-        [hashtable] $Args,
-        [string] $Message = ""
+        [Parameter(Mandatory = $true)]
+        [string]
+        $CommandName,
+        
+        [hashtable]
+        $Arguments = @{},
+
+        [string]
+        $Message = ""
     );
 
     $ArgsAsString = (
-        $Args.GetEnumerator()
-        | ForEach-Object {
-            "$($_.Key)=$($_.Value)"
-        }
+        $Arguments.GetEnumerator() `
+            | ForEach-Object {
+                "$($_.Key)=$($_.Value)"
+            }
     ) -join ",";
     Write-Host "::$CommandName $ArgsAsString::$Message";
 
@@ -21,7 +28,15 @@ function Set-ActionOutput {
         $Name,
         $Value
     );
-    Invoke-ActionCommand -CommandName "set-output" -Args @{"Name" = $Value}
+    Invoke-ActionCommand -CommandName "set-output" -Arguments @{"Name" = $Value}
+}
+
+function Set-ActionEnvionrmentVariable {
+    param(
+        $Name,
+        $Value = $null
+    );
+    Invoke-ActionCommand "set-env" -Arguments @{"Name" = $Name} -Message $Value
 }
 
 function Write-ActionError {
@@ -32,10 +47,10 @@ function Write-ActionError {
         $Column = $null
     );
 
-    $Args = @{}
-    if ($null -ne $File) { $Args["file"] = $File; }
-    if ($null -ne $Line) { $Args["line"] = $Line; }
-    if ($null -ne $Column) { $Args["col"] = $Column; }
-    Write-Debug $Args;
-    Invoke-ActionCommand -CommandName "error" -Message $Message -Args $Args;
+    $Arguments = @{}
+    if ($null -ne $File) { $Arguments["file"] = $File; }
+    if ($null -ne $Line) { $Arguments["line"] = $Line; }
+    if ($null -ne $Column) { $Arguments["col"] = $Column; }
+    Write-Debug $Arguments;
+    Invoke-ActionCommand -CommandName "error" -Message $Message -Arguments $Arguments;
 }
