@@ -28,7 +28,7 @@ function Set-ActionOutput {
         $Name,
         $Value
     );
-    Invoke-ActionCommand -CommandName "set-output" -Arguments @{"Name" = $Value}
+    Invoke-ActionCommand -CommandName "set-output" -Arguments @{"Name" = $Name} $Value
 }
 
 function Set-ActionEnvionrmentVariable {
